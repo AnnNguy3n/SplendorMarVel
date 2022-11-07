@@ -1,0 +1,36 @@
+normalCardInfor = array[
+    90 array 1 chiều, độ dài 8.
+    Mỗi array chứa thông tin về một thẻ thường như: Điểm (1-index), Điểm Avenger(1-index)
+                            Loại nguyên liệu nhận được (1-index) và Giá để mua (5-index).
+]
+
+nobleCardInfor = array[
+    8 array 1 chiều, độ dài 6.
+    Mỗi array chứa thông tin về một thẻ quý tộc (Điểm (1-index), Giá để mua (5-index)).
+]
+
+arrLv1 = array 1 chiều, độ dài 41. 40-index đầu thể hiện id của thẻ.
+    Index cuối cùng thể hiện số thẻ đã được lấy ra từ chồng bài này.
+
+Tương tự với arrLv2 (độ dài 31) và arrLv3 (độ dài 21).
+
+env:
+    Board:
+    * [0:6] Nguyên liệu trên bàn chơi, thứ tự lần lượt là vàng, lam, da cam, đỏ, tím
+    * [6:10]: 4 thẻ noble trên bàn chơi
+    * [10,14,18,22]: thông tin các thẻ cấp 1, cấp 2, cấp 3 trên bàn chơi
+
+    Player: [22,39,56,73,90]
+    [0:6] Nguyên liệu thường: vàng, lam, da cam, đỏ, tím
+    [6:12]: Nguyên liệu vĩnh viễn: vàng, lam, da cam, đỏ, tím, lục
+    [12]: Điểm
+    [13]: Điểm A
+    [14:17] Thẻ úp
+
+    Bổ sung:
+    [90] Turn
+    [91] Phase
+    [92:97] Nguyên liệu đã lấy trong turn đó
+    [97:101] Số thẻ đã mua của các người chơi
+    [101]: Game đã kết thúc hay chưa
+    [102]: Người chơi đang nắm giữ Avenger

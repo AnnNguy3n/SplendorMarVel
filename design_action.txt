@@ -1,0 +1,34 @@
+phase 0: Chọn hành động
+    0: kết thúc lượt
+    1: lấy nguyên liệu
+    2: úp thẻ
+    3: mua thẻ
+
+    => phase, turn
+
+phase 1: chọn nguyên liệu để lấy
+    4: lấy vàng
+    5: lấy lam
+    6: lấy da cam
+    7: lấy đỏ
+    8: lấy tím
+    9: dừng lấy thêm nguyên liệu
+
+    => nguyên liệu người chơi đã lấy trong turn đó
+
+phase 2: chọn thẻ để úp
+    10,11,12,13,14: lần lượt là: úp thẻ ẩn cấp 1, úp thẻ 1 ở các vị trí trên bàn chơi (4 vị trí)
+    tương tự với [15:20] và [20:25] là đối với các thẻ cấp 2 và cấp 3
+
+phase 3: chọn thẻ để mua
+    [25:37]: mua các thẻ trên bàn chơi  (12 vị trí tương ứng 12 action)
+    [37:40]: mua các thẻ đang giữ (3 vị trí tương ứng 3 action)
+
+phase 4: chọn nguyên liệu để trả
+    40: trả vàng
+    41: trả lam
+    42: trả da cam
+    43: trả đỏ
+    44: trả tím
+
+    Không có trả xám (dạy khôn cho bot luôn)
