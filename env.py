@@ -509,10 +509,10 @@ def checkEnded(env):
 @njit
 def getReward(state):
     if state[314] == 0:
-        return 0
+        return -1
     else:
         if (state[183:189] == 0).any() or state[189] < 16: # Thiếu nguyên liệu hoặc điểm
-            return -1
+            return 0
         else: # Đủ nguyên liệu và đủ điểm
             lstEnPer = np.array([1, 0, 0, 0])
             for i in range(1, 4):
@@ -529,7 +529,7 @@ def getReward(state):
 
             lstP = np.where((lstEnPer==1)&(scoreArr==maxScore_))[0]
             if 0 not in lstP: # Không trong danh sách đủ nguyên liệu và điểm cao nhất (trong những người đủ nguyên liệu)
-                return -1
+                return 0
             
             if len(lstP) == 1: # Duy nhất trong danh sách
                 return 1
@@ -540,12 +540,12 @@ def getReward(state):
                 if pAven[0] == 0:
                     return 1
                 else:
-                    return -1
+                    return 0
             
             playerBoughtCards = state[lstP+296]
             min_ = np.min(playerBoughtCards)
             if playerBoughtCards[0] > min_:
-                return -1
+                return 0
             # Trường hợp có người cùng điểm, cùng số thẻ và không ai có Avenger card
             else: # Số lượng thẻ ít nhất
                 lstChk = lstP[np.where(playerBoughtCards==min_)[0]]
@@ -556,7 +556,7 @@ def getReward(state):
                     if selfId + lstChk[1] >= 4:
                         return 1
                     else:
-                        return -1
+                        return 0
 
 
 
@@ -576,6 +576,8 @@ def run(listAgent, perData):
         winner = checkEnded(env)
         if winner != -1:
             break
+    
+    env[101] = 1
     
     for pIdx in range(4):
         env[90] = pIdx
@@ -610,10 +612,13 @@ def numbaRun(p0, p1, p2, p3, perData, pIdOrder):
         if winner != -1:
             break
     
-    temp = np.full(4, 0)
+    # temp = np.full(4, 0)
+
+    env[101] = 1
+
     for pIdx in range(4):
         env[90] = pIdx
-        temp[pIdx] = getReward(getAgentState(env, lv1, lv2, lv3))
+        # temp[pIdx] = getReward(getAgentState(env, lv1, lv2, lv3))
         if pIdOrder[pIdx] == 0:
             action, tempData[pIdx], perData = p0(getAgentState(env, lv1, lv2, lv3), tempData[pIdx], perData)
         elif pIdOrder[pIdx] == 1:
