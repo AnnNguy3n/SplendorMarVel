@@ -759,25 +759,29 @@ def load_module_player(player):
 
 
 @jit
-def numba_main_2(p0, n_game, per_player, level):
+def numba_main_2(p0, n_game, per_player, level, *args):
     list_other = np.array([1, 2, 3, -1])
     if level == 0:
         per_agent_env = np.array([0])
         return n_game_numba(p0, n_game, per_player, list_other, per_agent_env, per_agent_env, per_agent_env, numbaRandomBot, numbaRandomBot, numbaRandomBot)
     else:
         env_name = sys.argv[1]
-        dict_level = json.load(open(f'{SHOT_PATH}Log/level_game.json'))
-        if str(level) not in dict_level[env_name]:
-            raise Exception('Hiện tại không có level này')
+        if len(*args) > 0:
+            dict_level = json.load(open(f'{SHOT_PATH}Log/check_system_about_level.json'))
+        else:
+            dict_level = json.load(open(f'{SHOT_PATH}Log/level_game.json'))
 
+        if str(level) not in dict_level[env_name]:
+            raise Exception('Hiện tại không có level này') 
+            
         lst_agent_level = dict_level[env_name][str(level)][2]
 
-        p1 = load_module_player(lst_agent_level[0]).Agent
-        p2 = load_module_player(lst_agent_level[1]).Agent
-        p3 = load_module_player(lst_agent_level[2]).Agent
+        p1 = load_module_player(lst_agent_level[0]).Test
+        p2 = load_module_player(lst_agent_level[1]).Test
+        p3 = load_module_player(lst_agent_level[2]).Test
         per_level = []
         for id in range(getAgentSize()-1):
             data_agent_env = list(np.load(f'{SHOT_PATH}Agent/{lst_agent_level[id]}/Data/{env_name}_{level}/Train.npy',allow_pickle=True))
-        per_level.append(data_agent_env)
-
+            per_level.append(data_agent_env)
+        
         return n_game_numba(p0, n_game, per_player, list_other, per_level[0], per_level[1], per_level[2], p1, p2, p3)
